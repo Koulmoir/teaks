@@ -1,13 +1,18 @@
 package space.loop.teaks.core;
 
+import space.loop.teaks.data.Enchantments;
+import space.loop.teaks.data.Tweaks;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.util.EnumMap;
 
 public class TweaksLogic {
     final Logger LOGGER = LogManager.getLogger("Loopy Teaks");
+    String[] defaultEnchantmentsConfigBlacklist = new Tweaks().defaultEnchancementsConfig;
+    EnumMap<Enchantments, String> enchantTweaks = new Tweaks().EnchantTweaks;
 
     //LOGGER.info(FabricLoader.getInstance().getConfigDir());
 

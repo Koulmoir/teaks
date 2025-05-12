@@ -3,10 +3,6 @@ package space.loop.teaks.data;
 import java.util.EnumMap;
 import java.util.Map;
 
-enum Enchantments{
-    SLIDE, DASH, BOUNCY, BRIMSTONE, WARP, PHASING, CHAOS, BURY, STRAFE, GRAPPLE
-}
-
 public class Tweaks {
     public EnumMap<Enchantments, String> EnchantTweaks = new EnumMap<>(Map.of(
             Enchantments.BOUNCY, "enchancement:bouncy",
@@ -20,4 +16,42 @@ public class Tweaks {
             Enchantments.STRAFE, "enchancement:strafe",
             Enchantments.WARP, "enchancement:warp"
     ));
+
+    public String[] defaultEnchancementsConfig = {
+            "minecraft:aqua_affinity",
+            "minecraft:bane_of_arthropods",
+            "minecraft:binding_curse",
+            "minecraft:blast_protection",
+            "minecraft:depth_strider",
+            "minecraft:feather_falling",
+            "minecraft:fire_protection",
+            "minecraft:flame",
+            "minecraft:fortune",
+            "minecraft:frost_walker",
+            "minecraft:impaling",
+            "minecraft:infinity",
+            "minecraft:knockback",
+            "minecraft:looting",
+            "minecraft:loyalty",
+            "minecraft:lure",
+            "minecraft:mending",
+            "minecraft:multishot",
+            "minecraft:piercing",
+            "minecraft:power",
+            "minecraft:projectile_protection",
+            "minecraft:protection",
+            "minecraft:punch",
+            "minecraft:quick_charge",
+            "minecraft:respiration",
+            "minecraft:sharpness",
+            "minecraft:smite",
+            "minecraft:soul_speed",
+            "minecraft:sweeping",
+            "minecraft:swift_sneak",
+            "minecraft:thorns",
+            "minecraft:unbreaking",
+            "minecraft:vanishing_curse",
+            "spectrum:indestructible",
+            "spectrum:autosmelt"
+    };
 }
