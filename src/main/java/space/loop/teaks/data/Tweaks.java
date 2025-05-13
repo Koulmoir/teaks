@@ -1,5 +1,6 @@
 package space.loop.teaks.data;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -54,4 +55,20 @@ public class Tweaks {
             "spectrum:indestructible",
             "spectrum:autosmelt"
     };
+
+    String getEnchantString(Enchantments enchantment){
+        return EnchantTweaks.get(enchantment);
+    }
+
+    String[] getEnchantStringArrayList(){
+        ArrayList<String> Array = new ArrayList<String>();
+        for (Enchantments enchant : Enchantments.values()){
+            Array.add(getEnchantString(enchant));
+        }
+        String[] array1 = new String[Array.size()];
+        return Array.toArray(array1);
+    }
+
+
+
 }

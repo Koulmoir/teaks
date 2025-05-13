@@ -49,8 +49,11 @@ dependencies {
     -it's easy and it's what enchancement uses
     */
     //Note: we might need more if other mods use other libs, but for now it's enough
+    //Note 2: yeah uhhh we need the features from 1.6.7+ for @Condition so we can at best keep it for our own config
     modImplementation include ("maven.modrinth:midnightlib:${project.midnightlib_version}")
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    //gonna have to just parse the raw json ig -_-
+    implementation 'com.google.code.gson:gson:2.13.1'
 }
 
 processResources {
