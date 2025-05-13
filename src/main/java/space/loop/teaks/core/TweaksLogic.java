@@ -7,20 +7,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
 
 public class TweaksLogic {
     final Logger LOGGER = LogManager.getLogger("Loopy Teaks");
     String[] defaultEnchantmentsConfigBlacklist = new Tweaks().defaultEnchancementsConfig;
-    EnumMap<Enchantments, String> defaultEnchantTweaks = new Tweaks().EnchantTweaks;
+    EnumMap<Enchantments, String> enchantTweaks = new Tweaks().EnchantTweaks;
 
     //LOGGER.info(FabricLoader.getInstance().getConfigDir());
-
-    //gives back the enchant tweaks raw strings
-
 
     public void initialConfiguration(){
 
