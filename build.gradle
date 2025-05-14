@@ -50,6 +50,7 @@ dependencies {
     */
     //Note: we might need more if other mods use other libs, but for now it's enough
     //Note 2: yeah uhhh we need the features from 1.6.7+ for @Condition so we can at best keep it for our own config
+    //Note 3: I hate my life
     modImplementation include ("maven.modrinth:midnightlib:${project.midnightlib_version}")
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     //gonna have to just parse the raw json ig -_-

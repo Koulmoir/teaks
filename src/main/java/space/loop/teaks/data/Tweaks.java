@@ -56,6 +56,10 @@ public class Tweaks {
             "spectrum:autosmelt"
     };
 
+    public String[] recipesToDisabler = {
+        "minecraft:birch_door"
+    };
+
     String getEnchantString(Enchantments enchantment){
         return EnchantTweaks.get(enchantment);
     }
@@ -69,6 +73,11 @@ public class Tweaks {
         return Array.toArray(array1);
     }
 
+    ArrayList<String> getCurrentEnchantConfig(){
+        ArrayList<String> ArrayCurrentConfig = new ArrayList<String>();
 
+
+        return ArrayCurrentConfig;
+    }
 
 }
