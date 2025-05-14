@@ -38,7 +38,7 @@ public class Teaks implements ModInitializer {
             LOGGER.info("Removing broken items...");
             for (String e : Tweaks.recipesToDisabler){
                 String[] tID = e.split(":");
-                LOGGER.info("Removing recipe: %s", e);
+                LOGGER.info(String.format("Removing recipe: %s", e));
                 Collection<Recipe<?>> recipes = server.getRecipeManager().values();
                 recipes.removeIf(
                         r -> Pattern.matches(tID[0],r.getId().getNamespace()) &&

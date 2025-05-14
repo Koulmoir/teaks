@@ -1,7 +1,16 @@
 package space.loop.teaks.data;
 
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+import net.fabricmc.loader.api.FabricLoader;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.io.FileReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public class Tweaks {
@@ -57,7 +66,8 @@ public class Tweaks {
     };
 
     public String[] recipesToDisabler = {
-        "minecraft:birch_door"
+            "herbalbrews:cauldron",
+            "herbalbrews:cauldron_brewing/dummy_recipe"
     };
 
     String getEnchantString(Enchantments enchantment){
@@ -73,11 +83,28 @@ public class Tweaks {
         return Array.toArray(array1);
     }
 
-    ArrayList<String> getCurrentEnchantConfig(){
-        ArrayList<String> ArrayCurrentConfig = new ArrayList<String>();
+    List<String> getCurrentEnchantConfig(Logger LOGGER){
+        List<String> ListCurrentConfig = new ArrayList<String>();
+         File config = FabricLoader.getInstance().getConfigDir().resolve("enchancement.json").toFile();
+
+         try(FileReader configReader = new FileReader(config)){
+             Gson json = new Gson();
+             JsonElement rootE = JsonParser.parseReader(configReader);
+             JsonObject rootO = rootE.getAsJsonObject();
+             JsonArray disallowedEnchantsJsonArray = rootO.getAsJsonArray("disallowedEnchantments");
+             //Carefull!! I have no idea what this does!!!
+             Type stringListType = new TypeToken<List<String>>() {}.getType();
+             //Carefull!! I have no idea what this does!!!
+             ListCurrentConfig = json.fromJson(disallowedEnchantsJsonArray, stringListType);
+             return ListCurrentConfig;
 
 
-        return ArrayCurrentConfig;
+         } catch (Exception e) {
+             LOGGER.error(e.getStackTrace());
+             return ListCurrentConfig;
+         }
+
     }
+    //TODO:Add a function for modifying the Config
 
 }
