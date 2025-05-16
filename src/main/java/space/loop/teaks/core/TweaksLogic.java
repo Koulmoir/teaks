@@ -19,14 +19,14 @@ public class TweaksLogic {
     String[] defaultEnchantmentsConfigBlacklist = new Tweaks().defaultEnchancementsConfig;
     EnumMap<Enchantments, String> enchantTweaks = new Tweaks().EnchantTweaks;
 
-    CommandContext<ServerCommandSource> context;
-
     public void initialConfiguration(){
 
+        Tweaks tweaks = new Tweaks();
         //checks if the enchancements config file exists
         File enchancementConfigFile = new File(FabricLoader.getInstance().getConfigDir()+"/enchancement.json");
         if (enchancementConfigFile.exists()) {
             LOGGER.info("Enchancement config file found! Configuring...");
+            tweaks.addTweakesenchants(LOGGER);
         } else {
             LOGGER.info("Enchancement config file not found! Please add Enchancements for full immersion");
         }

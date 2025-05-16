@@ -7,11 +7,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Tweaks {
     public EnumMap<Enchantments, String> EnchantTweaks = new EnumMap<>(Map.of(
@@ -70,11 +69,11 @@ public class Tweaks {
             "herbalbrews:cauldron_brewing/dummy_recipe"
     };
 
-    String getEnchantString(Enchantments enchantment){
+    public String getEnchantString(Enchantments enchantment){
         return EnchantTweaks.get(enchantment);
     }
 
-    String[] getEnchantStringArrayList(){
+    public String[] getEnchantStringArrayList(){
         ArrayList<String> Array = new ArrayList<String>();
         for (Enchantments enchant : Enchantments.values()){
             Array.add(getEnchantString(enchant));
@@ -83,7 +82,7 @@ public class Tweaks {
         return Array.toArray(array1);
     }
 
-    List<String> getCurrentEnchantConfig(Logger LOGGER){
+    public configReturn getCurrentEnchantConfig(Logger LOGGER){
         List<String> ListCurrentConfig = new ArrayList<String>();
          File config = FabricLoader.getInstance().getConfigDir().resolve("enchancement.json").toFile();
 
@@ -96,15 +95,48 @@ public class Tweaks {
              Type stringListType = new TypeToken<List<String>>() {}.getType();
              //Carefull!! I have no idea what this does!!!
              ListCurrentConfig = json.fromJson(disallowedEnchantsJsonArray, stringListType);
-             return ListCurrentConfig;
+             return new configReturn(ListCurrentConfig, rootO,config,json);
 
 
          } catch (Exception e) {
+             //Pray this Error doesn't occur otherwise we are fucking done for 😭
+             LOGGER.error(e);
              LOGGER.error(e.getStackTrace());
-             return ListCurrentConfig;
+             return new configReturn(ListCurrentConfig,null,null, null);
          }
 
     }
-    //TODO:Add a function for modifying the Config
+
+    public boolean tweaksInConfig(List<String> currentEnchantConfigAsList){
+        //yeah um i just let intellij do it's thing after using containsALL just gotta hope
+        return new HashSet<>(currentEnchantConfigAsList).containsAll(Arrays.asList(getEnchantStringArrayList()));
+
+    }
+    public void addTweakesenchants(Logger LOGGER){
+        configReturn currentEnchantConfig = getCurrentEnchantConfig(LOGGER);
+        List<String> currentEnchantConfigAsList = currentEnchantConfig.configAsList();
+        Gson jsonWriter = new GsonBuilder().setPrettyPrinting().create();
+        JsonObject rootObject = currentEnchantConfig.rootObject();
+        try(FileWriter configWriter = new FileWriter(currentEnchantConfig.configFile())) {
+
+            if (!tweaksInConfig(currentEnchantConfigAsList)) {
+                LOGGER.info("Adding Enchants to list...");
+                currentEnchantConfigAsList.addAll(Arrays.asList(getEnchantStringArrayList()));
+                rootObject.add("disallowedEnchantments",
+                        currentEnchantConfig.json()
+                                .toJsonTree(currentEnchantConfigAsList)
+                                .getAsJsonArray());
+                jsonWriter.toJson(rootObject, configWriter);
+                LOGGER.info("Configured Successfully!");
+            } else {
+                LOGGER.info("Already Configured!");
+            }
+        } catch (Exception e) {
+            LOGGER.error("Something went wrong while configuring printing error...");
+            LOGGER.error(e);
+            LOGGER.error(e.getStackTrace());
+        }
+    }
+    //TODO:make it integrate with confifg(very easy)
 
 }
