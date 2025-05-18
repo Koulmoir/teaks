@@ -1,39 +1,42 @@
 package space.loop.teaks.core;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraft.server.command.ServerCommandSource;
-import space.loop.teaks.data.Enchantments;
 import space.loop.teaks.data.Tweaks;
 import space.loop.teaks.Teaks;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.minecraft.server.MinecraftServer;
-import com.mojang.brigadier.context.CommandContext;
+import space.loop.teaks.data.ConfigTeaks;
+import space.loop.teaks.data.jeiConfig;
 
 import java.io.File;
 import java.util.EnumMap;
 
 public class TweaksLogic {
     final Logger LOGGER = LogManager.getLogger("Loopy Teaks");
-    String[] defaultEnchantmentsConfigBlacklist = new Tweaks().defaultEnchancementsConfig;
-    EnumMap<Enchantments, String> enchantTweaks = new Tweaks().EnchantTweaks;
 
     public void initialConfiguration(){
 
-        Tweaks tweaks = new Tweaks();
         //checks if the enchancements config file exists
         File enchancementConfigFile = new File(FabricLoader.getInstance().getConfigDir()+"/enchancement.json");
-        if (enchancementConfigFile.exists()) {
+        if (enchancementConfigFile.exists() && ConfigTeaks.enchantTweaks) {
             LOGGER.info("Enchancement config file found! Configuring...");
-            tweaks.addTweakesenchants(LOGGER);
+            Tweaks.addEnchantments(LOGGER);
         } else {
             LOGGER.info("Enchancement config file not found! Please add Enchancements for full immersion");
         }
         //This needs to be tested but idfk how lol gonna just have to believe in it
-        ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
-            Teaks.recipeDisabler(server, LOGGER);
-        });
+        //Note:Works for now DO NOT TOUCH
+        if (ConfigTeaks.recipeTweaks) {
+            ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
+                Teaks.recipeDisabler(server, LOGGER);
+            });
+        }
+        //TODO:Fix this piece of shit
+        if (ConfigTeaks.itemTweaks){
+            jeiConfig jeiConfig = new jeiConfig();
+            jeiConfig.init(LOGGER);
+        }
 
     }
 
