@@ -49,6 +49,7 @@ public class Teaks implements ModInitializer {
             }
         }).start();
     }
-
+    //What I'm about to do is a magical thing know by many as 💫 Bullshit 💫 (I'm pushing this onto me tomorrow)
+    //TODO:Recipe whitelister by mod id (wllahi I'm cokked)
 }
 
